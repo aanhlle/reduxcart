@@ -1,14 +1,25 @@
-import classes from './CartItem.module.css';
+import classes from "./CartItem.module.css";
+import { useDispatch } from "react-redux";
+import { addToCartActions } from "../../store/addToCart";
 
 const CartItem = (props) => {
   const { title, quantity, total, price } = props.item;
+  const id = props.id;
+  const dispatch = useDispatch();
+
+  const handleDecrease = () => {
+    dispatch(addToCartActions.decreaseQuantity({ id }));
+  };
+  const handleIncrease = () => {
+    dispatch(addToCartActions.increaseQuantity({ id }));
+  };
 
   return (
     <li className={classes.item}>
       <header>
         <h3>{title}</h3>
         <div className={classes.price}>
-          ${total.toFixed(2)}{' '}
+          ${total.toFixed(2)}{" "}
           <span className={classes.itemprice}>(${price.toFixed(2)}/item)</span>
         </div>
       </header>
@@ -17,8 +28,8 @@ const CartItem = (props) => {
           x <span>{quantity}</span>
         </div>
         <div className={classes.actions}>
-          <button>-</button>
-          <button>+</button>
+          <button onClick={handleDecrease}>-</button>
+          <button onClick={handleIncrease}>+</button>
         </div>
       </div>
     </li>

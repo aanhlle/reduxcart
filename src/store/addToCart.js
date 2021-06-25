@@ -7,7 +7,32 @@ const addToCartSlice = createSlice({
   initialState: addToCartInitialState,
   reducers: {
     addToCart: (state, action) => {
-      state.addItems.unshift(action.payload);
+      const existingItem = state.addItems.find(
+        (item) => item.id === action.payload.id
+      );
+      if (existingItem) {
+        existingItem.quantity += 1;
+      } else {
+        action.payload.quantity = 1;
+        state.addItems.push(action.payload);
+      }
+    },
+    increaseQuantity: (state, action) => {
+      const currentItem = state.addItems.find(
+        (item) => item.id === action.payload.id
+      );
+
+      currentItem.quantity += 1;
+    },
+    decreaseQuantity: (state, action) => {
+      const currentItem = state.addItems.find(
+        (item) => item.id === action.payload.id
+      );
+
+      currentItem.quantity -= 1;
+      if (currentItem.quantity === 0) {
+        state.addItems = state.addItems.filter((item) => item !== currentItem);
+      }
     },
   },
 });

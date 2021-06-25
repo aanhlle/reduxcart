@@ -11,13 +11,10 @@ const Cart = (props) => {
       <ul>
         {CARTITEMS.map((item) => {
           let { id, ...itemProps } = item;
-          itemProps.quantity = 1;
+
           itemProps.total = itemProps.price * itemProps.quantity;
-          CARTITEMS.find((item) => item.id === id) ? (
-            (itemProps.quantity += 1)
-          ) : (
-            <CartItem key={id} item={itemProps} />
-          );
+
+          return <CartItem key={id} id={id} item={itemProps} />;
         })}
       </ul>
     </Card>
